@@ -5,7 +5,12 @@
   "main": "index.js",
   "scripts": {
     "test": "test",
-    "dev": "nodemon src/index.ts"
+    "start": "ts-node src/index.ts",
+    "dev": "nodemon src/index.ts",
+    "lint": "eslint . --ext .ts",
+    "fix": "npm run lint -- --fix",
+    "build": "tsc",
+    "app": "npm run build && ts-node src/index.ts"
   },
   "repository": {
     "type": "git",
@@ -14,15 +19,18 @@
   "author": "https://github.com/YauheniKapliarchuk",
   "license": "ISC",
   "devDependencies": {
-    "eslint": "^4.19.1",
     "nodemon": "^2.0.4",
     "ts-node": "^8.10.2"
   },
   "dependencies": {
+    "babel-eslint": "^8.2.6",
+    "eslint": "^4.19.1",
     "@types/node": "^14.11.2",
     "dotenv": "^8.2.0",
     "node-telegram-bot-api": "^0.50.0",
-    "typescript": "^3.9.5"
+    "telegram-typings": "^4.0.0-beta",
+    "typescript": "^3.9.7",
+    "winston": "^3.3.3"
   },
   "bugs": {
     "url": "https://github.com/YauheniKapliarchuk/hymns7/issues"

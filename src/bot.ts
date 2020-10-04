@@ -1,5 +1,10 @@
+import Helper from './services/helper';
+import { Message } from 'telegram-typings';
+import constants from './config/constants';
+import keyboard from './resolvers/keyboard';
+// @ts-ignore
 import * as TelegramBot from 'node-telegram-bot-api';
-require('dotenv').config()
+require('dotenv').config();
 
 const Bot = {
     async start() {
@@ -7,9 +12,18 @@ const Bot = {
             polling: true
         });
 
-        bot.on("message", (msg) => {
-            console.log(msg);
+        bot.onText(/\/start/, (msg: Message) => {
+            sendHomeScreen(Helper.getChatId(msg), Helper.getUserName(msg));
         });
+
+        const sendHomeScreen = (chatId: number, userName: string) => {
+            bot.sendMessage(chatId, `${constants.WELCOME_MESSAGE + userName  }. \n${  constants.CHOOSE_OPTION}`, {
+                reply_markup: {
+                    keyboard: keyboard.home,
+                    resize_keyboard: true
+                }
+            });
+        };
 
         return bot;
     }
