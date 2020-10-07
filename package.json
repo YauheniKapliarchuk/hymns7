@@ -5,12 +5,12 @@
   "main": "index.js",
   "scripts": {
     "test": "test",
-    "start": "ts-node src/index.ts",
-    "dev": "nodemon src/index.ts",
+    "start": "ts-node src/server.ts",
+    "dev": "nodemon src/server.ts",
     "lint": "eslint . --ext .ts",
     "fix": "npm run lint -- --fix",
     "build": "tsc",
-    "app": "npm run build && ts-node src/index.ts"
+    "app": "npm run build && ts-node src/server.ts"
   },
   "repository": {
     "type": "git",
