@@ -5,6 +5,8 @@ import keyboard from './resolvers/keyboard';
 // @ts-ignore
 import * as TelegramBot from 'node-telegram-bot-api';
 import logger from "./config/logger_config";
+import menuButtons from "./resolvers/menuButtons";
+import hymnsKeyboard from "./resolvers/hymns_keyboard";
 require('dotenv').config();
 
 class Bot {
@@ -17,9 +19,23 @@ class Bot {
         this.connectionToDateBase();
     }
 
+    //TODO refactor this method. Move functions
     async start() {
         this.bot.onText(/\/start/, (msg: Message) => {
             sendHomeScreen(Helper.getChatId(msg), Helper.getUserName(msg));
+        });
+
+        this.bot.on('message', (msg: Message) => {
+            const chatId = Helper.getChatId(msg);
+
+            switch (msg.text) {
+                case menuButtons.home.hymns_of_hope:
+                    this.bot.sendMessage(chatId, constants.CHOOSE_HYMNS_OF_HOME, {
+                        reply_markup: {
+                            inline_keyboard: hymnsKeyboard.hymns
+                        }
+                    })
+            }
         });
 
         const sendHomeScreen = (chatId: number, userName: string) => {
