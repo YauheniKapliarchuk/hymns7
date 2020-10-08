@@ -5,6 +5,7 @@ import keyboard from './resolvers/keyboard';
 // @ts-ignore
 import * as TelegramBot from 'node-telegram-bot-api';
 import logger from "./config/logger_config";
+import { dbConfig } from './config/db_config';
 import menuButtons from "./resolvers/menuButtons";
 import hymnsKeyboard from "./resolvers/hymns_keyboard";
 require('dotenv').config();
@@ -52,7 +53,14 @@ class Bot {
 
     //TODO implementation connection to DB
     connectionToDateBase() {
-        logger.info('Cottection to DataBase');
+        dbConfig
+            .authenticate()
+            .then(() => {
+                logger.info('⛓️ Connection has been established successfully. 🧳');
+            })
+            .catch((error: void) => {
+                logger.error('🆘 Unable to connect to the database: ', error);
+            });
     }
 }
 
