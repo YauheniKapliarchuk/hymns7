@@ -1,13 +1,13 @@
 import Helper from './services/helper';
 import { Message } from 'telegram-typings';
 import constants from './config/constants';
-import keyboard from './resolvers/keyboard';
 // @ts-ignore
 import * as TelegramBot from 'node-telegram-bot-api';
 import logger from "./config/logger_config";
 import { dbConfig } from './config/db_config';
 import menuButtons from "./resolvers/menuButtons";
 import hymnsKeyboard from "./resolvers/hymns_keyboard";
+import HomeScreenService from "./services/HomeScreenService";
 require('dotenv').config();
 
 class Bot {
@@ -16,6 +16,8 @@ class Bot {
         polling: true
     });
 
+    homeScreenService = new HomeScreenService();
+
     constructor() {
         this.connectionToDateBase();
     }
@@ -23,7 +25,7 @@ class Bot {
     //TODO refactor this method. Move functions
     async start() {
         this.bot.onText(/\/start/, (msg: Message) => {
-            sendHomeScreen(Helper.getChatId(msg), Helper.getUserName(msg));
+            this.homeScreenService.sendHomeScreen(Helper.getChatId(msg), Helper.getUserName(msg), this.bot);
         });
 
         this.bot.on('message', (msg: Message) => {
@@ -39,19 +41,9 @@ class Bot {
             }
         });
 
-        const sendHomeScreen = (chatId: number, userName: string) => {
-            this.bot.sendMessage(chatId, `${constants.WELCOME_MESSAGE + userName  }. \n${  constants.CHOOSE_OPTION}`, {
-                reply_markup: {
-                    keyboard: keyboard.home,
-                    resize_keyboard: true
-                }
-            });
-        };
-
         return this.bot;
     }
 
-    //TODO implementation connection to DB
     connectionToDateBase() {
         dbConfig
             .authenticate()
