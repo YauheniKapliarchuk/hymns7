@@ -1,5 +1,5 @@
-import constants from "../config/constants";
-import keyboard from "../resolvers/keyboard";
+import constants from '../config/constants';
+import keyboard from '../resolvers/keyboard';
 // @ts-ignore
 import * as TelegramBot from 'node-telegram-bot-api';
 
