@@ -7,6 +7,7 @@ import { dbConfig } from './config/db_config';
 import menuButtons from './resolvers/menuButtons';
 import HomeScreenService from './services/HomeScreenService';
 import HymnsService from './services/HymnsService';
+import {Action} from "./resolvers/types/Action";
 
 require('dotenv').config();
 
@@ -43,8 +44,44 @@ class Bot {
         // TODO: see documentation for this
         this.bot.on('callback_query', (query: any) => {
             const data = JSON.parse(query.data);
+            const { type } = data;
+            const chatId = data.chatId;
 
-            // TODO:
+            //TODO: Refactoring
+            switch (type) {
+                case Action.GET_HYMN_DETAILS:
+                    this.bot.sendMessage(chatId, 'Гимн № ' + data.hymnUUID, {
+                        reply_markup: {
+                            inline_keyboard: [
+                                [
+                                    {
+                                        text: "Ноты",
+                                        callback_data: 'Notes'
+                                    },
+                                    {
+                                        text: "Текст",
+                                        callback_data: 'Text'
+                                    },
+                                ],
+                                [
+                                    {
+                                        text: 'Назад',
+                                        callback_data: JSON.stringify({
+                                            type: Action.BACK_TO_HYMNS,
+                                            chatId
+                                        })
+                                    },
+                                ]
+                            ]
+                        }
+                    });
+                    break;
+                case Action.BACK_TO_HYMNS:
+
+                    break;
+            }
+
+            // TODO: prepare keyboard for aother types
             logger.info(`INFO FROM DATA: ${  data.chatId  } :: ${  data.hymnUUID}`);
         });
 
