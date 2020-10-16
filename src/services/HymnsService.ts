@@ -1,15 +1,15 @@
 import { Action } from '../resolvers/types/Action';
 import constants from '../config/constants';
-// @ts-ignore
-import * as TelegramBot from 'node-telegram-bot-api';
+import logger from '../config/logger_config';
 
 const countOfHymns = 80;
 const dataInRow = 8;
-const hymnsMassive: ({ text: number; callback_data: string; }[] | { text: string; callback_data: string; }[])[] = [];
+let hymnsMassive: ({ text: number; callback_data: string; }[] | { text: string; callback_data: string; }[])[] = [];
 
 export default class HymnsService {
     // TODO add DB
-    getHymns = (chatId: number, bot: TelegramBot) => {
+    getHymns = (chatId: number) => {
+        hymnsMassive = [];
         for (let i = 1; i < countOfHymns; i += dataInRow) {
             const row = [];
 
@@ -37,10 +37,14 @@ export default class HymnsService {
             callback_data: 'back'
         }]);
 
-        bot.sendMessage(chatId, constants.CHOOSE_HYMNS_OF_HOME, {
-            reply_markup: {
-                inline_keyboard: hymnsMassive
-            }
-        });
+        logger.warn(`HYMNS MASSIVE: ${  hymnsMassive.length}`);
+
+        return hymnsMassive;
+
+        // bot.sendMessage(chatId, constants.CHOOSE_HYMNS_OF_HOME, {
+        //     reply_markup: {
+        //         inline_keyboard: hymnsMassive
+        //     }
+        // });
     }
 }

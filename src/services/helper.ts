@@ -12,5 +12,17 @@ export default class Helper {
         const userName = `${msg.chat.first_name  } ${  msg.chat.last_name}`;
         logger.info(`HELPER_get_USER_NAME: ${userName}`);
         return userName;
+    };
+
+    static getMessageId = (msg: Message) => {
+        const messageId = msg.message_id;
+        logger.info(`HELPER_get_MESSAGE_ID: ${messageId}`);
+        return messageId;
+    };
+
+    static getCallBackData = (msg: Message) => {
+        const data = { chatId: msg.chat.id, messageId: msg.message_id };
+        logger.info(`HELPER_get_CALLBACK_DATA: ${JSON.stringify(data)}`);
+        return data;
     }
 }
