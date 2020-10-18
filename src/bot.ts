@@ -8,6 +8,7 @@ import menuButtons from './resolvers/menuButtons';
 import HomeScreenService from './services/HomeScreenService';
 import HymnsService from './services/HymnsService';
 import { Action } from './resolvers/types/Action';
+import {hymnDetailsKeyboard} from "./resolvers/hymns/hymnDeteilsKeyBoard";
 
 require('dotenv').config();
 
@@ -47,44 +48,19 @@ class Bot {
 
         this.bot.on('polling_error', console.log);
 
-        // TODO: see documentation for this
+        // TODO: Refactoring
         this.bot.on('callback_query', (query: any) => {
             const data = JSON.parse(query.data);
-            // const message = JSON.parse(query.message);
             const { type } = data;
             const chatId = data.chatId;
 
             const message_id = query.message.message_id;
 
-            logger.warn(`${'DATA MARKUP: ' + ' : '}${  chatId}`);
-
-            // TODO: Refactoring
             switch (type) {
                 case Action.GET_HYMN_DETAILS:
-                    logger.warn(`${'DATA MARKUP 13: ' + ' : '}${  chatId  } : ${  message_id  } : ${   query.inline_message_id}`);
 
                     this.bot.editMessageReplyMarkup({
-                        inline_keyboard: [
-                            [
-                                {
-                                    text: 'Ноты',
-                                    callback_data: 'Notes'
-                                },
-                                {
-                                    text: 'Текст',
-                                    callback_data: 'Text'
-                                }
-                            ],
-                            [
-                                {
-                                    text: 'Назад',
-                                    callback_data: JSON.stringify({
-                                        type: Action.BACK_TO_HYMNS,
-                                        chatId
-                                    })
-                                }
-                            ]
-                        ]
+                        inline_keyboard: hymnDetailsKeyboard(chatId)
                     }, {
                         chat_id: chatId,
                         message_id
@@ -92,7 +68,6 @@ class Bot {
 
                     break;
                 case Action.BACK_TO_HYMNS:
-                    logger.warn(`${'DATA MARKUP 14: ' + ' : '}${  chatId  } : ${  message_id}`);
                     this.bot.editMessageReplyMarkup({
                         inline_keyboard: this.hymnsService.getHymns(chatId)
                     }, {

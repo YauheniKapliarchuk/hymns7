@@ -40,11 +40,5 @@ export default class HymnsService {
         logger.warn(`HYMNS MASSIVE: ${  hymnsMassive.length}`);
 
         return hymnsMassive;
-
-        // bot.sendMessage(chatId, constants.CHOOSE_HYMNS_OF_HOME, {
-        //     reply_markup: {
-        //         inline_keyboard: hymnsMassive
-        //     }
-        // });
     }
 }
