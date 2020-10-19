@@ -36,7 +36,7 @@ class Bot {
                 case menuButtons.home.hymns_of_hope:
                     this.bot.sendMessage(chatId, 'Выберите гимн', {
                         reply_markup: {
-                            inline_keyboard: this.hymnsService.getHymns(chatId)
+                            inline_keyboard: this.hymnsService.getHymns(chatId, 0)
                         }
                     });
                     break;
@@ -58,23 +58,32 @@ class Bot {
 
             switch (type) {
                 case Action.GET_HYMN_DETAILS:
-
                     this.bot.editMessageReplyMarkup({
                         inline_keyboard: hymnDetailsKeyboard(chatId)
                     }, {
                         chat_id: chatId,
                         message_id
                     });
-
                     break;
-                case Action.BACK_TO_HYMNS:
+
+                case Action.NEXT_HYMNS:
                     this.bot.editMessageReplyMarkup({
-                        inline_keyboard: this.hymnsService.getHymns(chatId)
+                        inline_keyboard: this.hymnsService.getHymns(chatId, data.nextIndex)
                     }, {
                         chat_id: chatId,
                         message_id
                     });
                     break;
+
+                case Action.BACK_TO_HYMNS:
+                    this.bot.editMessageReplyMarkup({
+                        inline_keyboard: this.hymnsService.getHymns(chatId, 0)
+                    }, {
+                        chat_id: chatId,
+                        message_id
+                    });
+                    break;
+
                 default:
                     logger.info('DEFAULT SWITCH CASE callback_query');
                     break;
