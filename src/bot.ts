@@ -8,7 +8,7 @@ import menuButtons from './resolvers/menuButtons';
 import HomeScreenService from './services/HomeScreenService';
 import HymnsService from './services/HymnsService';
 import { Action } from './resolvers/types/Action';
-import {hymnDetailsKeyboard} from "./resolvers/hymns/hymnDeteilsKeyBoard";
+import { hymnDetailsKeyboard } from './resolvers/hymns/hymnDeteilsKeyBoard';
 
 require('dotenv').config();
 
@@ -74,6 +74,9 @@ class Bot {
                         chat_id: chatId,
                         message_id
                     });
+                    break;
+                default:
+                    logger.info('DEFAULT SWITCH CASE callback_query');
                     break;
             }
 
