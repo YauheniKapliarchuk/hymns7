@@ -5,14 +5,13 @@ import constants from '../config/constants';
 // const countOfHymns = 385;
 const maxHymnsPerPage = 80;
 const dataInRow = 8;
-let hymnsMassive: ({ text: number; callback_data: string; }[] | { text: string; callback_data: string; }[])[] = [];
+// let hymnsMassive: ({ text: number; callback_data: string; }[] | { text: string; callback_data: string; }[])[] = [];
 
 export default class HymnsService {
     // TODO add DB
     getHymns = (chatId: number, nextIndex: number) => {
-        hymnsMassive = [];
+        const hymnsMassive = [];
 
-        // let index = 0;
         let start = 1;
         let finish = 81;
 

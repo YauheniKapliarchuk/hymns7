@@ -2,6 +2,17 @@ import { Message } from 'telegram-typings';
 import logger from '../config/logger_config';
 
 export default class Helper {
+
+    static getChatData = (msg: Message) => {
+        const chatId = msg.chat.id;
+        const userName = `${msg.chat.first_name  } ${  msg.chat.last_name}`;
+
+        return {
+            chat_id: chatId,
+            userName: userName
+        };
+    };
+
     static getChatId = (msg: Message) => {
         const chatId = msg.chat.id;
         logger.info(`HELPER_get_CHAT_ID: ${chatId}`);
