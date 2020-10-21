@@ -2,14 +2,29 @@ import { Message } from 'telegram-typings';
 import logger from '../config/logger_config';
 
 export default class Helper {
-
-    static getChatData = (msg: Message) => {
+    static getChatDataByMessage = (msg: Message) => {
         const chatId = msg.chat.id;
         const userName = `${msg.chat.first_name  } ${  msg.chat.last_name}`;
+        const message_id = msg.message_id;
 
         return {
             chat_id: chatId,
-            userName: userName
+            userName,
+            message_id
+        };
+    };
+
+    static getChatDataByQuery = (query: any) => {
+        const data = JSON.parse(query.data);
+        const { type } = data;
+
+        const userName = `${query.from.first_name  } ${  query.from.last_name}`;
+        return {
+            chat_id: query.from.id,
+            message_id: query.message.message_id,
+            type,
+            userName,
+            nextIndex: data.nextIndex
         };
     };
 
@@ -18,22 +33,4 @@ export default class Helper {
         logger.info(`HELPER_get_CHAT_ID: ${chatId}`);
         return chatId;
     };
-
-    static getUserName = (msg: Message) => {
-        const userName = `${msg.chat.first_name  } ${  msg.chat.last_name}`;
-        logger.info(`HELPER_get_USER_NAME: ${userName}`);
-        return userName;
-    };
-
-    static getMessageId = (msg: Message) => {
-        const messageId = msg.message_id;
-        logger.info(`HELPER_get_MESSAGE_ID: ${messageId}`);
-        return messageId;
-    };
-
-    static getCallBackData = (msg: Message) => {
-        const data = { chatId: msg.chat.id, messageId: msg.message_id };
-        logger.info(`HELPER_get_CALLBACK_DATA: ${JSON.stringify(data)}`);
-        return data;
-    }
 }

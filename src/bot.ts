@@ -1,8 +1,8 @@
-import {Message} from 'telegram-typings';
+import { Message } from 'telegram-typings';
 // @ts-ignore
 import * as TelegramBot from 'node-telegram-bot-api';
 import logger from './config/logger_config';
-import {dbConfig} from './config/db_config';
+import { dbConfig } from './config/db_config';
 import HomeScreenService from './services/HomeScreenService';
 
 require('dotenv').config();
@@ -19,7 +19,6 @@ class Bot {
     }
 
     async start() {
-
         this.bot.on('text', (msg: Message) => {
             this.homeScreenService.sendHomeScreen(this.bot, msg);
         });

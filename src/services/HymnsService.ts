@@ -1,11 +1,11 @@
 import { Action } from '../resolvers/types/Action';
 import constants from '../config/constants';
+import menuButtons from '../resolvers/menuButtons';
 
 // TODO: add validation on count of hymns
 // const countOfHymns = 385;
 const maxHymnsPerPage = 80;
 const dataInRow = 8;
-// let hymnsMassive: ({ text: number; callback_data: string; }[] | { text: string; callback_data: string; }[])[] = [];
 
 export default class HymnsService {
     // TODO add DB
@@ -47,6 +47,8 @@ export default class HymnsService {
                 chatId
             })
         }]);
+
+        hymnsMassive.push([menuButtons.back]);
 
         return hymnsMassive;
     }

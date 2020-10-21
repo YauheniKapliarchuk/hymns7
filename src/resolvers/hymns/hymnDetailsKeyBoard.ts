@@ -1,5 +1,5 @@
 import { Action } from '../types/Action';
-import constants from "../../config/constants";
+import constants from '../../config/constants';
 
 export const hymnDetailsKeyboard = (chatId: number) => {
     return [

@@ -6,6 +6,9 @@ const keyboard = {
         [menuButtons.home.psalms_of_zion],
         [menuButtons.home.songs],
         [menuButtons.home.support]
+    ],
+    support: [
+        [menuButtons.back]
     ]
 };
 
