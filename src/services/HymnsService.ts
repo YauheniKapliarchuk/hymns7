@@ -48,11 +48,6 @@ export default class HymnsService {
             })
         }]);
 
-        hymnsMassive.push([{
-            text: constants.BACK,
-            callback_data: 'back'
-        }]);
-
         return hymnsMassive;
     }
 }

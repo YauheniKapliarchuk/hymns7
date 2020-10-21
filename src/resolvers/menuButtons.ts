@@ -1,10 +1,12 @@
+import constants from "../config/constants";
+
 const menuButtons = {
     home: {
-        hymns_of_hope: '🎹 Гимны Надежды 1997',
-        hymns_of_hope_2020: '🎹 Гимны Надежды 2020',
-        psalms_of_zion: '🎺 Псалмы Сиона',
-        songs: '🎼 Христианские песни',
-        support: '📍 🆘 Обратиться за помощью/Связаться с нами'
+        hymns_of_hope: constants.HYMNS_OF_HOPE,
+        hymns_of_hope_2020: constants.HYMNS_OF_HOPE_2020,
+        psalms_of_zion: constants.PSALMS_OF_ZION,
+        songs: constants.SONGS,
+        support: constants.SUPPORT
     },
     back: '⬅️ Назад'
 };
