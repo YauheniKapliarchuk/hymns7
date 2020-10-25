@@ -9,7 +9,7 @@ const dataInRow = 8;
 
 export default class HymnsService {
     // TODO add DB
-    getHymns = (chatId: number, nextIndex: number) => {
+    getHymns = (chatId: number, nextIndex: number, action: Action) => {
         const hymnsMassive = [];
 
         let start = 1;
@@ -29,8 +29,8 @@ export default class HymnsService {
                 row.push({
                     text: j,
                     callback_data: JSON.stringify({
-                        type: Action.GET_HYMN_DETAILS,
-                        hymnUUID: j,
+                        type: action,
+                        UUID: j,
                         chatId
                     })
                 });

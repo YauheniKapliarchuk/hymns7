@@ -6,19 +6,19 @@ const menuButtons = {
         hymns_of_hope: {
             text: constants.HYMNS_OF_HOPE,
             callback_data: JSON.stringify({
-                type: Action.HYMNS_OF_HOPE
+                type: Action.HYMNS_OF_HOPE_1997
             })
         },
         hymns_of_hope_2020: {
             text: constants.HYMNS_OF_HOPE_2020,
             callback_data: JSON.stringify({
-                type: Action.PSALMS_OF_ZION
+                type: Action.HYMNS_OF_HOPE_2020
             })
         },
         psalms_of_zion: {
             text: constants.PSALMS_OF_ZION,
             callback_data: JSON.stringify({
-                type: Action.HYMNS_OF_HOPE_2020
+                type: Action.PSALMS_OF_ZION
             })
         },
         songs: {

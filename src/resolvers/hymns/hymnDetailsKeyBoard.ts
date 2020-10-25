@@ -1,16 +1,24 @@
 import { Action } from '../types/Action';
 import constants from '../../config/constants';
 
-export const hymnDetailsKeyboard = (chatId: number) => {
+export const hymnDetailsKeyboard = (chat_id: number, item_index: number) => {
     return [
         [
             {
                 text: constants.NOTES,
-                callback_data: 'Notes'
+                callback_data: JSON.stringify({
+                    type: Action.GET_NOTES_OF_HYMN,
+                    UUID: item_index,
+                    chat_id
+                })
             },
             {
                 text: constants.TEXT,
-                callback_data: 'Text'
+                callback_data: JSON.stringify({
+                    type: Action.GET_TEXT_OF_HYMN,
+                    UUID: item_index,
+                    chat_id
+                })
             }
         ],
         [
@@ -18,7 +26,7 @@ export const hymnDetailsKeyboard = (chatId: number) => {
                 text: constants.BACK,
                 callback_data: JSON.stringify({
                     type: Action.BACK_TO_HYMNS,
-                    chatId
+                    chat_id
                 })
             }
         ]
