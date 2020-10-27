@@ -2,6 +2,7 @@ import { Message } from 'telegram-typings';
 import logger from '../config/logger_config';
 import { Action } from '../resolvers/types/Action';
 import HYMNS_CONFIG from '../config/hymns_config';
+import HYMNS_OF_HOPE__1997_CONFIG from "../config/data/hymns_of_hope_1997_config";
 
 // TODO: add for pzalms
 
@@ -46,8 +47,8 @@ export default class Helper {
         switch (activeAction) {
             case Action.GET_HYMN_DETAILS_97:
                 fileURL = fromAction === Action.GET_NOTES_OF_HYMN ?
-                    HYMNS_CONFIG.hymns_of_hope_1997_notes[item_index] :
-                    HYMNS_CONFIG.hymns_of_hope_1997_text[item_index];
+                    HYMNS_OF_HOPE__1997_CONFIG.notes[item_index] :
+                    HYMNS_OF_HOPE__1997_CONFIG.text[item_index];
                 break;
             case Action.GET_HYMN_DETAILS_20:
                 fileURL = fromAction === Action.GET_NOTES_OF_HYMN ?
