@@ -60,6 +60,16 @@ const HYMNS_OF_HOPE__1997_CONFIG = {
         57: 'https://i.postimg.cc/zGQrpvBQ/notes-hymn-of-hope-1997-57.png',
         58: 'https://i.postimg.cc/k5tdHCRg/notes-hymn-of-hope-1997-58.png',
         59: 'https://i.postimg.cc/SRxTwL1f/notes-hymn-of-hope-1997-59.png',
+        60: 'https://i.postimg.cc/050XBvns/notes-hymn-of-hope-1997-60.png',
+        61: 'https://i.postimg.cc/zXD2mQ2R/notes-hymn-of-hope-1997-61.png',
+        62: 'https://i.postimg.cc/c4D9dcPk/notes-hymn-of-hope-1997-62.png',
+        63: 'https://i.postimg.cc/MGBdbJHg/notes-hymn-of-hope-1997-63.png',
+        64: 'https://i.postimg.cc/wvdFw4sM/notes-hymn-of-hope-1997-64.png',
+        65: 'https://i.postimg.cc/sgvnxhrj/notes-hymn-of-hope-1997-65.png',
+        66: 'https://i.postimg.cc/Z52wd5br/notes-hymn-of-hope-1997-66.png',
+        67: 'https://i.postimg.cc/wvc2Z5hV/notes-hymn-of-hope-1997-67.png',
+        68: 'https://i.postimg.cc/XqjLbZL0/notes-hymn-of-hope-1997-68.png',
+        69: 'https://i.postimg.cc/fy8KTwqS/notes-hymn-of-hope-1997-69.png',
     },
 
     text: {
