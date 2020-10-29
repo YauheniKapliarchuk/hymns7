@@ -55,7 +55,6 @@ export default class HomeScreenService {
 
             // HYMNS ACTIONS
             case Action.GET_HYMN_DETAILS_97:
-                logger.warn("GET HYMNS: " + JSON.stringify(chat_data));
                 this.editMessage(bot, chat_data.chat_id, chat_data.message_id, hymnDetailsKeyboard(chat_data.chat_id, chat_data.UUID));
                 break;
             case Action.NEXT_HYMNS:
@@ -97,7 +96,8 @@ export default class HomeScreenService {
             message_id
         })
             .then(() => logger.info('Edit Message ✅  ----- '))
-            .catch();
+            .catch((error: void) =>
+                logger.error('EDIT MESSAGE: ' + error + '❗❗❗'));
     };
 
     private sendPhoto = (bot: TelegramBot, chat_id: number, hymnUUID: number, fromAction: Action) => {
