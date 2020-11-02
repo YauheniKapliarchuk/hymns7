@@ -72,6 +72,9 @@ export default class HomeScreenService {
             case Action.GET_NOTES_OF_HYMN:
                 this.sendPhoto(bot, chat_data.chat_id, chat_data.UUID, chat_data.type);
                 break;
+            case Action.GET_TEXT_OF_HYMN:
+                this.sendPhoto(bot, chat_data.chat_id, chat_data.UUID, chat_data.type);
+                break;
             default:
                 logger.info('DEFAULT SWITCH CASE callback_query');
                 break;
