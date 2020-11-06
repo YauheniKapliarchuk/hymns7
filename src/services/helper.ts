@@ -5,7 +5,6 @@ import HYMNS_CONFIG from '../config/hymns_config';
 import HYMNS_OF_HOPE__1997_CONFIG from "../config/data/hymns_of_hope_1997_config";
 
 // TODO: add for pzalms
-
 export default class Helper {
     static getChatDataByMessage = (msg: Message) => {
         const chatId = msg.chat.id;
