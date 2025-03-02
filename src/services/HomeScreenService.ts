@@ -70,10 +70,8 @@ export default class HomeScreenService {
                 this.sendMessage(bot, chat_data.chat_id, chat_data.message_id, text, keyboardHome.home);
                 break;
             case Action.GET_NOTES_OF_HYMN:
-                this.sendPhoto(bot, chat_data.chat_id, chat_data.UUID, chat_data.type);
-                break;
             case Action.GET_TEXT_OF_HYMN:
-                this.sendPhoto(bot, chat_data.chat_id, chat_data.UUID, chat_data.type);
+                this.sendHymnContent(bot, chat_data.chat_id, chat_data.message_id, chat_data.UUID, chat_data.type, hymnDetailsKeyboard(chat_data.chat_id, chat_data.UUID));
                 break;
             default:
                 logger.info('DEFAULT SWITCH CASE callback_query');
@@ -81,7 +79,10 @@ export default class HomeScreenService {
         }
     };
 
-    private sendMessage = (bot: TelegramBot, chat_id: number, message_id: number, text: string, keyboard: ({ text: number; callback_data: string; }[] | { text: string; callback_data: string; }[])[]) => {
+    private sendMessage = (bot: TelegramBot, chat_id: number, message_id: number, text: string, keyboard: ({
+        text: number;
+        callback_data: string;
+    }[] | { text: string; callback_data: string; }[])[]) => {
         bot.deleteMessage(chat_id, message_id);
         bot.sendMessage(chat_id, text, {
             reply_markup: {
@@ -91,7 +92,10 @@ export default class HomeScreenService {
             .then(() => logger.info('Send Message 💨  ----- '));
     };
 
-    private editMessage = (bot: TelegramBot, chat_id: number, message_id: string, keyboard: ({ text: number; callback_data: string; }[] | { text: string; callback_data: string; }[])[]) => {
+    private editMessage = (bot: TelegramBot, chat_id: number, message_id: string, keyboard: ({
+        text: number;
+        callback_data: string;
+    }[] | { text: string; callback_data: string; }[])[]) => {
         bot.editMessageReplyMarkup({
             inline_keyboard: keyboard
         }, {
@@ -103,12 +107,54 @@ export default class HomeScreenService {
                 logger.error('EDIT MESSAGE: ' + error + '❗❗❗'));
     };
 
-    private sendPhoto = (bot: TelegramBot, chat_id: number, hymnUUID: number, fromAction: Action) => {
-        const photoURL = Helper.getFileURL(hymnUUID, fromAction, this.activeAction);
-        bot.sendPhoto(chat_id, photoURL)
-            .then(() =>
-                logger.info('❗ Hymn ' + fromAction + ' of ' + hymnUUID + ' and ACTION = ' + this.activeAction + ' was sanded! 👌❗'))
-            .catch((error: void) =>
-                logger.error(error + '❗❗❗'));
-    }
+    // private sendPhoto = (bot: TelegramBot, chat_id: number, hymnUUID: number, fromAction: Action) => {
+    //     const photoURL = Helper.getHymnContent(hymnUUID, fromAction, this.activeAction);
+    //     bot.sendPhoto(chat_id, photoURL)
+    //         .then(() =>
+    //             logger.info('❗ Hymn ' + fromAction + ' of ' + hymnUUID + ' and ACTION = ' + this.activeAction + ' was sanded! 👌❗'))
+    //         .catch((error: void) =>
+    //             logger.error(error + '❗❗❗'));
+    // }
+
+    private sendHymnContent = async (
+        bot: TelegramBot,
+        chat_id: number,
+        message_id: string,
+        hymnIndex: number,
+        fromAction: Action,
+        keyboard: ({ text: number; callback_data: string; }[] | { text: string; callback_data: string; }[])[]
+    ) => {
+        try {
+            const content = Helper.getHymnContent(hymnIndex, fromAction, this.activeAction);
+
+            if (!content) {
+                await bot.sendMessage(chat_id, 'Ошибка: контент гимна не найден.');
+                return;
+            }
+
+            // Attempt to delete the previous message
+            await bot.deleteMessage(chat_id, message_id).catch((error: any) => {
+                logger.warn(`⚠️ Failed to delete message ${message_id}: ${error}`);
+            });
+
+            // Send hymn content (either photo or text)
+            if (fromAction === Action.GET_NOTES_OF_HYMN) {
+                await bot.sendPhoto(chat_id, content);
+                logger.info(`✅ Hymn notes (ID: ${hymnIndex}) sent as an image.`);
+            } else {
+                await bot.sendMessage(chat_id, content);
+                logger.info(`✅ Hymn text (ID: ${hymnIndex}) sent as text.`);
+            }
+
+            // Send the additional test message with a keyboard
+            await bot.sendMessage(chat_id, "Гимн - " + hymnIndex, {
+                reply_markup: {inline_keyboard: keyboard}
+            });
+            logger.info('✅ Test message sent successfully.');
+
+        } catch (error) {
+            logger.error(`❌ Error in sendHymnContent: ${error}`);
+        }
+    };
+
 }
