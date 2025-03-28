@@ -3,6 +3,7 @@ import logger from '../config/logger_config';
 import { Action } from '../resolvers/types/Action';
 import HYMNS_CONFIG from '../config/hymns_config';
 import HYMNS_OF_HOPE__1997_CONFIG from "../config/data/hymn_of_hope_1997/hymns_of_hope_1997_config";
+import PSALMS_OF_ZION_CONFIG from "../config/data/psalms_of_zion/psalms_of_zion_config";
 
 // TODO: add for pzalms
 export default class Helper {
@@ -68,6 +69,8 @@ export default class Helper {
                     return HYMNS_OF_HOPE__1997_CONFIG.notes[item_index];
                 case Action.GET_HYMN_DETAILS_20:
                     return HYMNS_CONFIG.hymns_of_hope_2020_notes[item_index];
+                case Action.GET_PSALM_DETAILS:
+                    return PSALMS_OF_ZION_CONFIG.notes[item_index];
                 default:
                     logger.info('DEFAULT SWITCH CASE FILE_URL');
                     return null;
@@ -78,11 +81,12 @@ export default class Helper {
                     return HYMNS_OF_HOPE__1997_CONFIG.text[item_index];
                 case Action.GET_HYMN_DETAILS_20:
                     return HYMNS_CONFIG.hymns_of_hope_2020_text[item_index];
+                case Action.GET_PSALM_DETAILS:
+                    return PSALMS_OF_ZION_CONFIG.text[item_index];
                 default:
                     logger.info('DEFAULT SWITCH CASE HYMN_TEXT');
                     return null;
             }
         }
     }
-
 }

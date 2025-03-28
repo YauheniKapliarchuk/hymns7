@@ -8,6 +8,7 @@ import {Message} from "telegram-typings";
 import Helper from "./helper";
 import keyboardHome from "../resolvers/keyboard";
 import constants from "../config/constants";
+import * as fs from "fs";
 
 export default class HomeScreenService {
 
@@ -49,12 +50,19 @@ export default class HomeScreenService {
                 keyboard = this.hymnsService.getHymns(chat_data.chat_id, 0, Action.GET_HYMN_DETAILS_20);
                 this.sendMessage(bot, chat_data.chat_id, chat_data.message_id, constants.CHOOSE_HYMNS_OF_HOME, keyboard);
                 break;
+            case Action.PSALMS_OF_ZION:
+                this.activeAction = Action.GET_PSALM_DETAILS;
+                keyboard = this.hymnsService.getHymns(chat_data.chat_id, 0, Action.GET_PSALM_DETAILS);
+                this.sendMessage(bot, chat_data.chat_id, chat_data.message_id, constants.CHOOSE_PSALMS_OF_ZION, keyboard);
+                break;
             case Action.SUPPORT:
                 this.sendMessage(bot, chat_data.chat_id, chat_data.message_id, constants.SUPPORT_MSG, keyboardHome.support);
                 break;
 
-            // HYMNS ACTIONS
+            // HYMNS & PSALMS ACTIONS
             case Action.GET_HYMN_DETAILS_97:
+            case Action.GET_HYMN_DETAILS_20:
+            case Action.GET_PSALM_DETAILS:
                 this.editMessage(bot, chat_data.chat_id, chat_data.message_id, hymnDetailsKeyboard(chat_data.chat_id, chat_data.UUID));
                 break;
             case Action.NEXT_HYMNS:
@@ -71,6 +79,8 @@ export default class HomeScreenService {
                 break;
             case Action.GET_NOTES_OF_HYMN:
             case Action.GET_TEXT_OF_HYMN:
+            case Action.GET_NOTES_OF_PSALM:
+            case Action.GET_TEXT_OF_PSALM:
                 this.sendHymnContent(bot, chat_data.chat_id, chat_data.message_id, chat_data.UUID, chat_data.type, hymnDetailsKeyboard(chat_data.chat_id, chat_data.UUID));
                 break;
             default:
@@ -116,6 +126,9 @@ export default class HomeScreenService {
     //             logger.error(error + '❗❗❗'));
     // }
 
+    /**
+     * Sends hymn or psalm content based on user selection.
+     */
     private sendHymnContent = async (
         bot: TelegramBot,
         chat_id: number,
@@ -125,10 +138,11 @@ export default class HomeScreenService {
         keyboard: ({ text: number; callback_data: string; }[] | { text: string; callback_data: string; }[])[]
     ) => {
         try {
+            // Fetch hymn or psalm content
             const content = Helper.getHymnContent(hymnIndex, fromAction, this.activeAction);
 
             if (!content) {
-                await bot.sendMessage(chat_id, 'Ошибка: контент гимна не найден.');
+                await bot.sendMessage(chat_id, 'Error: Hymn content not found.');
                 return;
             }
 
@@ -137,21 +151,28 @@ export default class HomeScreenService {
                 logger.warn(`⚠️ Failed to delete message ${message_id}: ${error}`);
             });
 
-            // Send hymn content (either photo or text)
-            if (fromAction === Action.GET_NOTES_OF_HYMN) {
-                await bot.sendPhoto(chat_id, content);
-                logger.info(`✅ Hymn notes (ID: ${hymnIndex}) sent as an image.`);
+            // Send hymn content (either image or text)
+            if (fromAction === Action.GET_NOTES_OF_HYMN || fromAction === Action.GET_NOTES_OF_PSALM) {
+                const stats = fs.statSync(content);
+                const fileSizeInMB = stats.size / (1024 * 1024);
+
+                if (fileSizeInMB < 1) {
+                    await bot.sendPhoto(chat_id, content);
+                    logger.info(`✅ Notes (ID: ${hymnIndex}) sent as an image.`);
+                } else {
+                    await bot.sendDocument(chat_id, content);
+                    logger.info(`✅ Notes (ID: ${hymnIndex}) sent as a document.`);
+                }
             } else {
                 await bot.sendMessage(chat_id, content);
-                logger.info(`✅ Hymn text (ID: ${hymnIndex}) sent as text.`);
+                logger.info(`✅ Text (ID: ${hymnIndex}) sent as text.`);
             }
 
-            // Send the additional test message with a keyboard
-            await bot.sendMessage(chat_id, "Гимн - " + hymnIndex, {
-                reply_markup: {inline_keyboard: keyboard}
+            // Send additional test message with a keyboard
+            await bot.sendMessage(chat_id, `Гимн/Псалм - ${hymnIndex}`, {
+                reply_markup: { inline_keyboard: keyboard }
             });
             logger.info('✅ Test message sent successfully.');
-
         } catch (error) {
             logger.error(`❌ Error in sendHymnContent: ${error}`);
         }

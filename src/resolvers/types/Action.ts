@@ -19,5 +19,9 @@ export enum Action {
     GET_NOTES_OF_HYMN = 'get_notes',
     GET_TEXT_OF_HYMN = 'get_text',
 
+    GET_PSALM_DETAILS = 'get_psalms_details',
+    GET_NOTES_OF_PSALM = 'get_psalms_notes',
+    GET_TEXT_OF_PSALM = 'get_psalms_text',
+
     EMPTY_ACTION = 'empty_action',
 }

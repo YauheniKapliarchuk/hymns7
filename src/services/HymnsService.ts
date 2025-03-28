@@ -71,6 +71,9 @@ export default class HymnsService {
             case Action.GET_HYMN_DETAILS_20:
                 count = 340;
                 break;
+            case Action.GET_PSALM_DETAILS:
+                count = 525;
+                break;
        }
 
        return count;

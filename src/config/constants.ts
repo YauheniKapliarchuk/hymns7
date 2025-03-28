@@ -13,6 +13,7 @@ export default {
     WELCOME_MESSAGE: 'Добро пожаловать ',
     CHOOSE_OPTION: 'Вы можете выбрать одну из возможных функций представленных ниже.',
     CHOOSE_HYMNS_OF_HOME: '✅ Выберите гимн:',
+    CHOOSE_PSALMS_OF_ZION: '✅ Выберите псалм:',
     NEXT_HYMNS: 'Следующие ➡️',
     BACK: '❌ Назад',
     BACK_TO_HOME: '⬅️ Вернуться в главное меню',
