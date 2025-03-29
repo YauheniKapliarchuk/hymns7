@@ -1,6 +1,6 @@
 const PSALMS_OF_ZION_CONFIG = {
     notes: {
-        1: 'src/config/data/psalms_of_zion/notes/notes-psalms-of-zion-2-1.webp',
+        1: 'src/config/data/psalms_of_zion/notes/notes-psalms-of-zion-1.webp',
         2: 'src/config/data/psalms_of_zion/notes/notes-psalms-of-zion-2.webp',
         3: 'src/config/data/psalms_of_zion/notes/notes-psalms-of-zion-3.webp',
         4: 'src/config/data/psalms_of_zion/notes/notes-psalms-of-zion-4.webp',
