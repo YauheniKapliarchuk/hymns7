@@ -23,7 +23,7 @@ export default class HomeScreenService {
 
         switch (msg.text) {
             case Action.START:
-                const text = `${constants.WELCOME_MESSAGE + chat_data.userName}. \n${constants.CHOOSE_OPTION}`;
+                const text = `${constants.WELCOME_MESSAGE + ', ' + chat_data.userName}. \n${constants.CHOOSE_OPTION}`;
                 this.sendMessage(bot, chat_data.chat_id, chat_data.message_id, text, keyboardHome.home);
                 break;
             default:
@@ -74,7 +74,7 @@ export default class HomeScreenService {
                 this.editMessage(bot, chat_data.chat_id, chat_data.message_id, keyboard);
                 break;
             case Action.BACK_TO_HOME:
-                const text = `${constants.WELCOME_MESSAGE + chat_data.userName}. \n${constants.CHOOSE_OPTION}`;
+                const text = `${constants.WELCOME_MESSAGE + ', '  + chat_data.userName}. \n${constants.CHOOSE_OPTION}`;
                 this.sendMessage(bot, chat_data.chat_id, chat_data.message_id, text, keyboardHome.home);
                 break;
             case Action.GET_NOTES_OF_HYMN:
